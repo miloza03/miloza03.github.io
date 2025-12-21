@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anniversary Celebration Card</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Itim', 'Noto Sans Thai', cursive;
+      overflow: hidden;
+    }
+
+    html, body, .card-container {
+      height: 100%;
+      width: 100%;
+    }
+
+    .card-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 60px 50px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 90%;
+      z-index: 10;
+      animation: cardEntrance 1s ease-out;
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: scale(0.8) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .heart-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      animation: heartBeat 1.5s infinite;
+    }
+
+    @keyframes heartBeat {
+      0%,100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+    }
+
+    .couple-names {
+      font-size: 32px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea, #f093fb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .main-message {
+      font-size: 28px;
+      color: #764ba2;
+    }
+
+    .years {
+      font-size: 48px;
+      font-weight: bold;
+      color: #667eea;
+      margin: 20px 0;
+    }
+
+    .celebrate-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 16px 48px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 30px;
+      font-family: inherit;
+      box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+    }
+
+    .celebrate-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: sparkleFloat 2s forwards;
+    }
+
+    @keyframes sparkleFloat {
+      from { opacity: 1; }
+      to   { opacity: 0; transform: translateY(-100px) scale(0); }
+    }
+
+    .floating-hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .floating-heart {
+      position: absolute;
+      animation: floatUp 6s infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 0.6; }
+      to   { transform: translateY(-100vh); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card-container">
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="card">
+      <svg class="heart-icon" viewBox="0 0 100 100">
+        <path d="M50,90 C50,90 10,60 10,35 C10,20 20,10 32.5,10 
+                 C40,10 45,15 50,25 C55,15 60,10 67.5,10 
+                 C80,10 90,20 90,35 C90,60 50,90 50,90 Z"
+              fill="#f093fb"/>
+      </svg>
+
+      <h1 class="couple-names">Milo & Beam</h1>
+      <h2 class="main-message">Happy Anniversary</h2>
+      <div class="years">6th Years</div>
+
+      <button class="celebrate-btn" id="celebrateBtn">
+        🎉 ลองกดดูสิ! 🎉
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const canvaLink =
+      "https://www.canva.com/design/DAG8JZf0vR4/cgHCsx-xePul4GXrIS7AMg/view?utm_content=DAG8JZf0vR4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9bb941566a";
+
+    function createConfetti(x, y) {
+      const colors = ['#667eea', '#764ba2', '#f093fb'];
+      for (let i = 0; i < 40; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = x + 'px';
+        c.style.top = y + 'px';
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.animation = `confettiFall ${1 + Math.random()}s ease-out`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2000);
+      }
+    }
+
+    function createSparkles(x, y) {
+      for (let i = 0; i < 15; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        s.innerHTML = "✨";
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 2000);
+      }
+    }
+
+    function createFloatingHearts() {
+      const container = document.getElementById('floatingHearts');
+      setInterval(() => {
+        const h = document.createElement('div');
+        h.className = 'floating-heart';
+        h.innerHTML = "💗";
+        h.style.left = Math.random() * 100 + "%";
+        h.style.bottom = "-40px";
+        h.style.fontSize = 20 + Math.random()*20 + "px";
+        container.appendChild(h);
+        setTimeout(() => h.remove(), 7000);
+      }, 800);
+    }
+
+    document.getElementById('celebrateBtn').addEventListener('click', (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      createConfetti(x, y);
+      createSparkles(x, y);
+
+      // ⭐ เพิ่มการลิงก์ไป Canva
+      setTimeout(() => {
+        window.open(canvaLink, "_blank");
+      }, 600);
+    });
+
+    createFloatingHearts();
+  </script>
+</body>
+</html>
