@@ -2338,6 +2338,25 @@
       const welcomeClone = docClone.querySelector('#welcomeScreen');
       if (welcomeClone) welcomeClone.classList.remove('slide-up');
 
+      // 1. ฝังข้อความทั้งหมดที่แก้ไข (editable-text) ลงใน HTML ใหม่
+      document.querySelectorAll('.editable-text[data-key]').forEach(el => {
+        const cloneEl = docClone.querySelector(`.editable-text[data-key="${el.dataset.key}"]`);
+        if (cloneEl) cloneEl.innerText = el.innerText;
+      });
+
+      // 2. ฝังรูปโปรไฟล์ล่าสุดลงใน HTML ใหม่
+      const currentProfileImg = document.getElementById('profileImage');
+      const cloneProfileImg = docClone.querySelector('#profileImage');
+      const clonePlaceholder = docClone.querySelector('#profilePlaceholder');
+      if (currentProfileImg && !currentProfileImg.classList.contains('hidden') && currentProfileImg.src) {
+        if (cloneProfileImg) {
+          cloneProfileImg.src = currentProfileImg.src;
+          cloneProfileImg.classList.remove('hidden');
+        }
+        if (clonePlaceholder) clonePlaceholder.classList.add('hidden');
+      }
+
+      // 3. ฝังข้อมูล Array (ประวัติส่วนตัว, การศึกษา, ผลงาน, แผนการสอน) ลงใน Script
       const scripts = docClone.querySelectorAll('script');
       const mainScript = scripts[scripts.length - 1];
 
